@@ -1,4 +1,4 @@
-require('./second_problem_a.rb')
+require('./second_problem.rb')
 
 describe 'Hash#fetch_deep' do
   it 'can look up simple values' do

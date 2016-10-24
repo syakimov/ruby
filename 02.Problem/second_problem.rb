@@ -35,12 +35,25 @@ class Hash
 
   def reshape(shape)
     shape.each do |key, value|
-      if value.is_a?(Hash)
-        # TODO: Go recursively
-      else
+      if !value.is_a?(Hash)
+        # recursion bottom hits when shape is a single lvl hash
         shape[key] = fetch_deep(value)
+      else
+        reshape(value)
       end
     end
-    shape
+  end
+end
+
+class Array
+  #will work for single lvl shape
+  def reshape(shape)
+    reshaped = []
+    each do |map|
+      to_be_added = shape.clone
+      shape.each { |key, value| to_be_added[key] = map.fetch_deep(value) }
+      reshaped << to_be_added
+    end
+    reshaped
   end
 end
