@@ -1,4 +1,4 @@
-require('./first_problem.rb')
+require('./first_problem_b.rb')
 
 describe '#convert_between_temperature_units' do
   it 'is defined and functions for simple values' do
