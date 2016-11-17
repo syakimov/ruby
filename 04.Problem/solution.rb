@@ -140,5 +140,13 @@ RSpec.describe 'Version' do
         expect(version.components(2)).to eq [1, 2]
       end
     end
+
+    context 'when a change on the return object is attempted' do
+      it 'does not allow mutation' do
+        version = Version.new('1.2')
+        version.components(2).pop
+        expect(version.components(2)).to eq [1, 2]
+      end
+    end
   end
 end
