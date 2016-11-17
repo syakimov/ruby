@@ -149,4 +149,68 @@ RSpec.describe 'Version' do
       end
     end
   end
+  describe 'Range' do
+    describe '#initialize' do
+      it 'creates a range from strings' do
+        expect(Range.new('1.1', '1.9')).to be_truthy
+      end
+
+      it 'creates a range from version instances' do
+        expect(Range.new(Version.new('1.1'), Version.new('1.9'))).to be_truthy
+      end
+
+      it 'creates a range from a version and string' do
+        expect(Range.new(Version.new('1.1'), '1.9')).to be_truthy
+      end
+
+      it 'creates a range from a string and version' do
+        expect(Range.new('1.1', Version.new('1.9'))).to be_truthy
+      end
+    end
+    describe '#include?' do
+      context 'with a version in the range' do
+        it 'returns true when passed string' do
+          within_range = Version::Range.new(Version.new('1'), Version.new('2'))
+          expect(within_range.include?('1.5')).to be_truthy
+        end
+
+        it 'returns true when passed version instance' do
+          within_range = Version::Range.new(Version.new('1'), Version.new('2'))
+          expect(within_range.include?(Version.new('1.5'))).to be_truthy
+        end
+
+        it 'returns true when lower border is passed' do
+          within_range = Version::Range.new('1', '2')
+          expect(within_range.include?('1')).to be_truthy
+        end
+      end
+
+      context 'with a version outside the range' do
+        it 'returns false' do
+          excluding_range = Version::Range.new('1', '2')
+          expect(excluding_range.include?('3')).to be_falsey
+        end
+
+        it 'returns false when upper bound is passed' do
+          excluding_range = Version::Range.new('1', '2')
+          expect(excluding_range.include?('2')).to be_falsey
+        end
+      end
+    end
+    describe '#to_a' do
+      it 'returnes array from a range' do
+        returned = Version::Range.new('1.1', '1.2').to_a
+        expected = [
+          '1.1', '1.1.1', '1.1.2', '1.1.3', '1.1.4',
+          '1.1.5', '1.1.6', '1.1.7', '1.1.8', '1.1.9'
+        ]
+        expect(returned).to eq expected
+      end
+
+      it 'returnes first border from two consecutive version range' do
+        returned = Version::Range.new('1.1.1', '1.1.2').to_a
+        expect(returned).to eq ['1.1.1']
+      end
+    end
+  end
 end
