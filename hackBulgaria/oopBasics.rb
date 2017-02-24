@@ -16,8 +16,7 @@ class Dog
   attr_writer :dog_years
 
   def to_human_years
-    puts 'DogTest#test_dog_to_human_years has erorrs'
-    @dog_years * 7
+    @dog_years / 7
   end
 
   def bites?
