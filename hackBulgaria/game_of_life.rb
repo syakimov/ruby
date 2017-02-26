@@ -13,12 +13,11 @@ module GameOfLife
     end
 
     def each(&block)
-      alive = cells.select { |_key, val| val }
-      alive.keys.each(&block)
+      cells.keys.each(&block)
     end
 
     def count
-      cells.select { |_key, val| val }.size
+      cells.keys.size
     end
 
     def population(location)
@@ -39,7 +38,7 @@ module GameOfLife
     end
 
     def next_generation
-      future = {}
+      future = []
 
       minx, maxx = cells.keys.map { |e| e.first }.minmax
       miny, maxy = cells.keys.map { |e| e.last }.minmax
@@ -47,11 +46,11 @@ module GameOfLife
       (minx - 1..maxx + 1).each do |x|
         (miny - 1..maxy + 1).each do |y|
           location = [x, y]
-          future[location] = true if should_live(location)
+          future << location if should_live(location)
         end
       end
 
-      GameOfLife::Board.new(*future.keys)
+      GameOfLife::Board.new(*future)
     end
   end
 end
