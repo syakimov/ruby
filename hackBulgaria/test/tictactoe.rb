@@ -8,7 +8,7 @@ module TicTacToe
 
       @w = lines.map do |x, y, z|
              r = [a[x], a[y], a[z]].uniq
-             r.first unless r.empty?
+             r.first if r.count == 1 # ['x'] if x is winner
            end.compact[0]
     end
 
@@ -17,8 +17,8 @@ module TicTacToe
     end
 
     def winning_moves
-      return nil unless @w
       m = []
+      return m unless @w
       (0..2).each { |r| (0..2).each { |c| m << [r, c] if @b[r][c] == @w } }
       m
     end
