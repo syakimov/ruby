@@ -1,62 +1,32 @@
 module TicTacToe
   class Board
-    def initialize(board)
-      @board = board
-      @moves = []
-      check_for_winning_rows(board)
-      check_for_winning_cols(board)
-      check_for_winning_diagonals(board)
-    end
+    def initialize(a)
+      @b = a
+      a = a.flatten
+      lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+               [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 
-    def check_for_winning_diagonals(board)
-      left = [board[0][0], board[1][1], board[2][2]].count 'x'
-      @moves = [[0,0], [1, 1], [2, 2]] if left == 3 || left.zero?
-      right = [board[0][2], board[1][1], board[2][0]].count 'x'
-      @moves = [[0, 2], [1, 1], [2, 0]] if right == 3 || right.zero?
-    end
-
-    def check_for_winning_rows(board)
-      (0..2).each do |row|
-        c = board[row].count 'x'
-        @moves = [[row, 0], [row, 1], [row, 2]] if c == 3 || c.zero?
-      end
-    end
-
-    def check_for_winning_cols(board)
-      (0..2).each do |col|
-        c = [board[0][col], board[1][col], board[2][col]].count 'x'
-        @moves = [[0, col], [1, col], [2, col]] if c == 3 || c.zero?
-      end
-    end
-
-    def _winner
-      return nil unless @moves.first
-      row = @moves.first.first
-      col = @moves.first.last
-      @board[row][col]
+      @w = lines.map do |x, y, z|
+             r = [a[x], a[y], a[z]].uniq
+             r.first unless r.empty?
+           end.compact[0]
     end
 
     def winner
-      "Player with '#{_winner}' is the winner." if _winner
+      "Player with '#{@w}' is the winner." if @w
     end
 
     def winning_moves
-      w = _winner
-      win_moves = []
-      (0..2).each do |r|
-        (0..2).each do |c|
-          win_moves << [r, c] if @board[r][c] == w
-        end
-      end
-
-      win_moves
+      return nil unless @w
+      m = []
+      (0..2).each { |r| (0..2).each { |c| m << [r, c] if @b[r][c] == @w } }
+      m
     end
   end
 end
 
-board = TicTacToe::Board.new([%w(o o o),
-                              %w(o x o),
-                              %w(x o x)])
-
-p board.winner
-p board.winning_moves
+# board1 = TicTacToe::Board.new([%w(x o x), %w(o x o), %w(x o x)])
+# p board1.winning_moves #=> [[0, 0], [2, 0], [1, 1], [0, 2], [2, 2]]
+# -----------------------------------------------------------------
+# board2 = TicTacToe::Board.new([%w(x o x), %w(o x o), %w(x o x)])
+# p board2.winner #=> "Player with 'x' is the winner."
