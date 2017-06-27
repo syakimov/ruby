@@ -1,0 +1,21 @@
+<h1>Orders</h1>
+<table style="width: 100%; text-align: center">
+  <% @orders.each do |order| %>
+    <tr>
+      <th>ID</th>
+      <th>Created at</th>
+      <th>Total</th>
+      <th>Client first name</th>
+      <th>Client last name</th>
+      <th>Client email</th>
+    </tr>
+    <tr>
+      <td><%= order.id %></td>
+      <td><%= order.created_at %></td>
+      <td><%= order.total %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% end %>
+</table>
