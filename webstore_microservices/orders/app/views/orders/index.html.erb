@@ -5,9 +5,9 @@
       <th>ID</th>
       <th>Created at</th>
       <th>Total</th>
-      <th>Client first name</th>
-      <th>Client last name</th>
-      <th>Client email</th>
+      <td><%= order.user[:first_name] %></td>
+      <td><%= order.user[:last_name] %></td>
+      <td><%= order.user[:email] %></td>
     </tr>
     <tr>
       <td><%= order.id %></td>
